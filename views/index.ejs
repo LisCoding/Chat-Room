@@ -1,0 +1,49 @@
+<html>
+<head>
+  <title></title>
+  <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type ="text/javascript">
+  $(document). ready(function (){
+    var name = prompt("Wath is your name")
+    // this triggers the connection event in our server!
+    var socket  = io.connect();
+
+    //EMIT Data to the server
+    socket.emit( "got_new_user", {user_name: name});
+
+    //Listening  for the server Response/ Send Data and do Something
+    socket.on('server_response', function (data){
+      $('.container').append(  "<div class='box-name'><h3>" +data.response.user_name+"</h3></div>")
+      console.log( 'The server respondes to add: ',  data.response);
+    });
+
+  })
+  </script>
+</head>
+<style media="screen">
+  .container {
+    width: 800px;
+    height: 600px;
+    border: 2px solid blue;
+    margin: auto;
+    padding: 20px
+
+  }
+  .box-name{
+    width: 100px;
+    height: 100px;
+    border: 2px solid purple;
+    text-align: center;
+    display: inline-block;
+    margin-left: 20px;
+  }
+</style>
+<body>
+  <div class="container">
+
+  </div>
+
+</body>
+</html>
